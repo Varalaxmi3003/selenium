@@ -1,0 +1,165 @@
+package demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+
+
+	 public class classb extends sampletng
+	  {
+		
+		 @DataProvider(name="provider")
+	        public static Object[][] credentials(){
+	            return new Object[][] {
+	            	{"test automation"},
+	            	{"test"}
+	            		};
+	            	
+	            
+		 }
+		
+		  @Test(dataProvider="provider")
+		 // @Parameters({"search"})
+		  //@Test
+		public void googlelaunch(String search)
+		{
+			  driver.get("https://www.valuemomentum.com/search/");
+		       driver.findElement(By.xpath("//*[@id=\"main\"]/form/label/input"));
+		       WebElement element1=driver.findElement(By.xpath("//*[@id=\"main\"]/form/label/input"));
+		       element1.sendKeys(search);
+		       driver.findElement(By.className("search-submit")).click();
+		      driver.findElement(By.xpath("//*[@id=\"main\"]/header"));
+		      if(driver.getTitle().contains("Search Results for: "))
+		      {
+		    	  System.out.println("found");
+		      }
+		      
+		      else
+		      {
+		       System.out.println("not");
+		      }
+		
+					     
+		}
+		 
+			
+		  @Test
+		  public void launch()
+		    { 
+			  driver.findElement(By.xpath("//*[@id=\"mega-menu-item-42\"]/a")).click();
+			         
+			         driver.findElement(By.xpath("//*[@id=\"mega-menu-item-4803\"]/a")).click();
+			         
+			         java.util.List<WebElement> links = driver.findElements(By.tagName("a"));
+			         System.out.println(links.size());
+			         
+			         WebElement searchElement=driver.findElement(By.linkText("Learn how iFoundry Product Lifecycle Management can help you"));
+			         
+			         if(searchElement.isDisplayed())
+			         {
+			      	   searchElement.click();
+			         }
+			         
+			       else
+			       {
+			      	 System.out.println("the element is not found");
+			       }
+			  	if(driver.getTitle().contains("Learn how iFoundry Product Lifecycle Management (PLM) can help you | ValueMomentum"))
+			  	{
+			  		System.out.println("contains iFoundry Product Lifecycle Management (PLM) | ValueMomentum");
+			  	}
+			  	else
+			  	{
+			  		System.out.println("the text is not found");
+			  	}
+			  	}
+			  }
+			  		
+		       
+		     
+		  
+		   <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="none"  >
+  <test name="chrome">
+
+ <parameter name="browser" value="chrome" />
+  <!-- parameter name="search" value="test automation"/ -->
+  
+  
+  <classes>
+  <class name="demo.sampletng"></class>
+  <class name="demo.classb"></class>  
+  </classes>
+  </test>
+  
+  <test name="ie">
+ <parameter name="browser" value="ie" />
+ <classes>
+  <class name="demo.sampletng"></class>
+  <class name="demo.classb"></class>  
+  </classes>
+  </test>
+  
+   <!-- Test -->
+
+</suite> <!-- Suite -->
+package demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.BeforeMethod;
+
+
+public class sampletng {
+	public static  WebDriver driver=null; 
+
+	@Parameters("browser")
+	@BeforeClass
+	public static void launchBrowser(String browser){
+		 
+			 			
+			  if(browser.equals("chrome")) {
+				  System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+				  driver = new ChromeDriver();
+			 
+			 
+			  }else if (browser.equals("ie")) { 
+			 
+			 
+				  System.setProperty("webdriver.ie.driver", "D:\\selenium\\IEdriverServer.exe");
+			 
+				  driver = new InternetExplorerDriver();
+			 
+			  }
+	
+			  
+    driver.get("https://www.google.co.in");
+	}
+	
+	
+	@BeforeMethod
+	public void mainpage() throws InterruptedException {
+    driver.findElement(By.id("lst-ib")).sendKeys("valuemomentum");
+    driver.findElement(By.id("lst-ib")).submit();
+    driver.findElement(By.xpath("//*[text()='ValueMomentum | IT Services & Software']")).click();
+    }
+	
+    @AfterClass
+    public static void close()
+ {
+	 driver.close();
+ }
+}
+ 
