@@ -1,0 +1,125 @@
+package demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+
+
+	 public class classb extends sampletng
+	  {
+		  @Test
+		  @Parameters({"search"})
+		public void googlelaunch(String search)
+		{
+		
+		       driver.findElement(By.xpath("//*[text()='ValueMomentum | IT Services & Software']")).click();
+		       driver.get("https://www.valuemomentum.com/search/");
+		       driver.findElement(By.xpath("//*[@id=\"main\"]/form/label/input"));
+		       WebElement element1=driver.findElement(By.xpath("//*[@id=\"main\"]/form/label/input"));
+		       element1.sendKeys(search);
+		       driver.findElement(By.className("search-submit")).click();
+		      driver.findElement(By.xpath("//*[@id=\"main\"]/header"));
+		      if(driver.getTitle().contains("Search Results for: test automation"))
+		      {
+		    	  System.out.println("found");
+		      }
+		      
+		      else
+		      {
+		       System.out.println("not");
+		      }
+		}
+		  @Test
+		  public void launch()
+		    { 
+		    
+		     driver.findElement(By.xpath("//*[@id=\"mega-menu-item-42\"]/a")).click();
+		     
+		     driver.findElement(By.xpath("//*[@id=\"mega-menu-item-4803\"]/a")).click();
+		     
+		     java.util.List<WebElement> links = driver.findElements(By.tagName("a"));
+		     System.out.println(links.size());
+		     
+		     WebElement searchElement=driver.findElement(By.linkText("Learn how iFoundry Product Lifecycle Management can help you"));
+		     
+		     if(searchElement.isDisplayed())
+		     {
+	  	   searchElement.click();
+		     }
+		     
+		   else
+		   {
+		  	 System.out.println("the element is not found");
+		   }
+		  if(driver.getTitle().contains("Learn how iFoundry Product Lifecycle Management (PLM) can help you | ValueMomentum"))
+		  {
+		  	System.out.println("contains iFoundry Product Lifecycle Management (PLM) | ValueMomentum");
+		  }
+		  else
+		  {
+		  	System.out.println("the text is not found");
+		  }
+		    }
+		    }
+		    
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test name="Test">
+  <parameter name="search" value="test automation"/>
+  
+  
+  <classes>
+  <class name="demo.sampletng"></class>
+  <class name="demo.classb"></class>  </classes>
+  
+  </test> <!-- Test -->
+  <test name="Test1">
+  <parameter name="search" value="test"/>
+  
+  
+  <classes>
+  <class name="demo.sampletng"></class>
+  <class name="demo.classb"></class>  </classes>
+  
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
+package demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
+
+
+public class sampletng {
+	public static  WebDriver driver=null; 
+	
+	@BeforeClass
+	public static void launchBrowser(){
+    System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+    driver= new ChromeDriver();
+    driver.get("https://www.google.co.in");
+    driver.findElement(By.id("lst-ib")).sendKeys("valuemomentum");
+    driver.findElement(By.id("lst-ib")).submit();
+    }
+	
+    @AfterClass
+    public static void close()
+ {
+	 driver.close();
+ }
+}
+ 
