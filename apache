@@ -1,0 +1,188 @@
+package TestngD;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.Reporter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+//import org.testng.annotations.BeforeTest;
+//import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+//import org.testng.annotations.BeforeClass;
+//import org.testng.Reporter;
+//import org.testng.annotations.AfterClass;
+//import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+//import org.testng.annotations.BeforeClass;
+//import org.testng.annotations.*;
+import org.testng.annotations.Parameters;
+
+
+
+public class Testng{
+	
+	 public static WebDriver driver;
+	
+	 /*@BeforeMethod
+		public static void launch() {
+			 System.setProperty("webdriver.chrome.driver", "E:\\selenium\\chromedriver.exe");
+			 	driver= new ChromeDriver();
+				driver.get("https://www.google.co.in");
+				 WebElement element = driver.findElement(By.id("lst-ib"));
+					element.sendKeys("valuemomentum");
+					element.submit();
+					driver.findElement(By.xpath("//*[text()='ValueMomentum | IT Services & Software']")).click();
+		}
+	 
+	 @AfterMethod
+	 public static void afterclass1() {
+		 driver.close();
+	 }
+	 */
+	
+	 @BeforeClass	 
+	 @Parameters({"browser"})
+	  public void beforeTest(String browser) {	
+	 
+	  if(browser.equalsIgnoreCase("chrome")) {
+		  driver= new ChromeDriver();
+	 
+	 
+	  }else if (browser.equalsIgnoreCase("ie")) { 
+	 
+		  System.setProperty("webdriver.ie.driver", "E:\\selenium\\IEDriverServer.exe");
+	 
+		  driver = new InternetExplorerDriver();
+	 
+	  } 
+	 driver.get("https://www.google.co.in"); 
+	  
+	 }
+	 @BeforeMethod
+	 public static void beforemethod() {
+		 
+		 WebElement element = driver.findElement(By.id("lst-ib"));
+			element.sendKeys("valuemomentum");
+			element.submit();
+			driver.findElement(By.xpath("//*[text()='ValueMomentum | IT Services & Software']")).click();
+	 }
+	 
+	 @AfterMethod
+	 public static void aftermethod() {
+		 
+		 Reporter.log("Success");
+	 }
+	 
+	 @AfterClass
+	 public static void afterclass1() {
+		 driver.close();
+	 }
+	 
+	 
+ }
+
+
+package TestngD;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+//import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+
+import org.testng.annotations.DataProvider;
+
+
+
+
+
+public class demo extends Testng {
+	
+	
+	
+	@DataProvider(name = "SearchProvider")
+	 
+	 public static Object[][] credentials() {
+	 
+	       return new Object[][] { {"Test Automation" }, {"Test" }};
+
+		
+		
+	  }
+	
+			 
+			@Test(dataProvider = "SearchProvider")
+			//@Parameters({"search"})
+			 public void GoogleApp(String search) {	
+				
+				
+				
+				 	driver.get("https://www.valuemomentum.com/search/");
+					driver.findElement(By.xpath("//*[@class='search-field']")).sendKeys(search);
+					driver.findElement(By.xpath("//*[@class='search-submit']")).click();
+					
+					WebElement searchElement = driver.findElement(By.xpath("//*[contains(text(),'Search Results for: ')]"));
+			        if(searchElement.isDisplayed()) {
+			        	System.out.println("Element present");
+			        }
+			        else {
+			        System.out.println("Element not present");
+			        }        
+			
+			 }
+			
+			@Test		
+			 public void WebsiteDev() {
+			
+				
+				
+				    driver.findElement(By.xpath("//*[@id=\"mega-menu-item-42\"]/a")).click();
+					driver.findElement(By.xpath("//*[@id=\"main\"]/section[2]/div[3]/div[1]/ul/li[3]/a/span")).click();
+					
+					java.util.List<WebElement> links = driver.findElements(By.tagName("a"));
+			 		System.out.println(links.size());
+			 		WebElement searchElement = driver.findElement(By.linkText("Learn how iFoundry Product Lifecycle Management can help you"));
+			        if(searchElement.isDisplayed()) {
+			        	searchElement.click();
+			        }
+			        else {
+			        System.out.println("Element not present");
+			        }
+			        String expectedTitle="Learn how iFoundry Product Lifecycle Management (PLM) can help you | ValueMomentum";
+			        String actualTitle=driver.getTitle();
+			        if(actualTitle.equals(expectedTitle)){
+			            System.out.println("Test Pass");
+			        }
+			        else{
+			            System.out.println("Test Failed");
+			        }
+			        
+			}
+		}
+		//extentreports.releventcode.com
+	
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests" >
+  
+  <test name="Chrome">
+ <parameter name="browser" value="chrome"/> 
+  	<classes>
+  		<class name="TestngD.Testng"/>
+  		<class name="TestngD.demo"/>
+  	</classes>
+  	  </test> <!-- Test --> 
+  	  
+  	 <test name="Ie">
+  <parameter name="browser" value="ie"/>
+ <classes> 
+  		<class name="TestngD.Testng"/>
+  		<class name="TestngD.demo"/>
+  	</classes>
+  	  </test>  
+</suite>
