@@ -1,0 +1,204 @@
+
+apache_poi
+package automationFramework;
+
+		import java.util.concurrent.TimeUnit;
+
+		import org.openqa.selenium.WebDriver;
+
+		import org.openqa.selenium.chrome.ChromeDriver;
+
+		import utility.Constants;
+
+		import utility.ExcelUtils;
+
+		import utility.ReadData;
+
+	public class Apache_POI_TC {
+
+			private static WebDriver driver = null;
+
+		public static void main(String[] args) throws Exception {
+			System.setProperty("webdriver.chrome.driver", "E:\\selenium\\chromedriver.exe");
+			driver = new ChromeDriver();
+
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+			driver.get(Constants.URL);
+
+       
+        ExcelUtils.setExcelFile(Constants.Path + Constants.File,"Sheet1");
+
+        
+
+        ReadData.Execute(driver);
+
+        System.out.println("Entered Successfully");
+
+      //driver.quit();
+
+ 
+        //This is to send the PASS value to the Excel sheet in the result column.
+
+        ExcelUtils.setCellData("Pass", 1, 2);
+
+		}
+
+	}
+  
+  
+ constant
+ 
+ package utility;
+
+public class Constants {
+	public static final String URL = "http://www.google.co.in";
+	 
+    public static final String Path = "E:\\selenium\\";
+
+    public static final String File = "Sampledoc.xlsx";
+
+}
+
+
+excelutil
+
+package utility;
+
+        	import java.io.FileInputStream;
+
+            import java.io.FileOutputStream;
+
+            import org.apache.poi.xssf.usermodel.XSSFCell;
+
+        	import org.apache.poi.xssf.usermodel.XSSFRow;
+
+        	import org.apache.poi.xssf.usermodel.XSSFSheet;
+
+        	import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+    public class ExcelUtils {
+
+        		private static XSSFSheet ExcelWSheet;
+
+        		private static XSSFWorkbook ExcelWBook;
+
+        		private static XSSFCell Cell;
+
+        		private static XSSFRow Row;
+
+    		//This method is to set the File path and to open the Excel file, Pass Excel Path and Sheetname as Arguments to this method
+
+    		public static void setExcelFile(String Path,String SheetName) throws Exception {
+
+       			try {
+
+           			// Open the Excel file
+
+					FileInputStream ExcelFile = new FileInputStream(Path);
+
+					// Access the required test data sheet
+
+					ExcelWBook = new XSSFWorkbook(ExcelFile);
+
+					ExcelWSheet = ExcelWBook.getSheet(SheetName);
+
+					} catch (Exception e){
+
+						throw (e);
+
+					}
+
+			}
+
+    		//This method is to read the test data from the Excel cell, in this we are passing parameters as Row num and Col num
+
+    	    public static String getCellData(int RowNum, int ColNum) throws Exception{
+
+       			try{
+
+          			Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
+
+          			String CellData = Cell.getStringCellValue();
+
+          			return CellData;
+
+          			}catch (Exception e){
+
+						return"";
+
+          			}
+
+		    }
+
+    		//This method is to write in the Excel cell, Row num and Col num are the parameters
+
+    		public static void setCellData(String Result,  int RowNum, int ColNum) throws Exception	{
+
+       			try{
+
+          			Row  = ExcelWSheet.getRow(RowNum);
+
+					Cell = Row.getCell(ColNum);
+
+					if (Cell == null) {
+
+						Cell = Row.createCell(ColNum);
+
+						Cell.setCellValue(Result);
+
+						} else {
+
+							Cell.setCellValue(Result);
+
+						}
+
+          // Constant variables Test Data path and Test Data file name
+
+          				FileOutputStream fileOut = new FileOutputStream(Constants.Path + Constants.File);
+
+          				ExcelWBook.write(fileOut);
+
+          				fileOut.flush();
+
+ 						fileOut.close();
+
+						}catch(Exception e){
+
+							throw (e);
+
+					}
+
+				}
+
+	}
+  
+  package utility;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class ReadData {
+	
+
+		public static void Execute(WebDriver driver) throws Exception{
+			
+	 
+				String Text = ExcelUtils.getCellData(1,0);
+	 
+	
+				
+				driver.findElement(By.id("lst-ib")).sendKeys(Text);
+				driver.findElement(By.id("lst-ib")).submit();
+	
+		}
+	}
+
+
+
+  
+  
+  
+  
+  
+  
