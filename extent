@@ -1,0 +1,113 @@
+package TestngD;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+//import org.testng.Reporter;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+
+//import org.testng.annotations.*;
+import org.testng.annotations.Parameters;
+import java.io.File;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+public class Testng{
+	
+	 public  WebDriver driver;
+	 public   ExtentReports extent;
+	public 	ExtentTest logger;
+	
+	 	@BeforeTest
+	 	@Parameters({"browser"})
+		public void launch(String browser) {
+	 		
+           
+			 //System.setProperty("webdriver.chrome.driver", "E:\\selenium\\chromedriver.exe");
+			 //driver= new ChromeDriver();
+	 		 
+
+	 		 
+	 		  if(browser.equalsIgnoreCase("chrome")) {
+	 			  driver= new ChromeDriver();
+	 		 
+	 		 
+	 		  }else if (browser.equalsIgnoreCase("ie")) { 
+	 		 
+	 			  System.setProperty("webdriver.ie.driver", "E:\\selenium\\IEDriverServer.exe");
+	 		 
+	 			  driver = new InternetExplorerDriver();
+	 		 
+	 		  } 
+	 		 
+			 extent = new ExtentReports("E:/selenium/TestNGDemo/test-output/STMExtentReport.html",true);
+			extent.addSystemInfo("Host Name", "SoftwareTestingMaterial");
+			extent.addSystemInfo("Environment", "Automation Testing");
+			extent.addSystemInfo("User Name", "VAM");
+		    extent.loadConfig(new File("E:\\selenium\\extent-config.xml"));
+	 	}	 	
+				
+	 	@BeforeMethod
+	 	public void search() {
+	 				driver.get("https://www.google.co.in");
+	 				WebElement element = driver.findElement(By.id("lst-ib"));
+					element.sendKeys("valuemomentum");
+					element.submit();
+					driver.findElement(By.xpath("//*[text()='ValueMomentum | IT Services & Software']")).click();
+		
+	 	
+	 	}
+	 	
+	 	
+	 @AfterMethod
+		public void endReport(){
+		 logger = extent.startTest("passTest");
+		Assert.assertTrue(true);
+		//To generate the log when the test case is passed
+		logger.log(LogStatus.PASS, "Test Case Passed is passTest");
+		extent.endTest(logger);
+		
+	  }
+	 	@AfterTest
+	 	 public void close(){
+	 		driver.close();
+			extent.flush();
+	        extent.close(); 
+		}
+}
+
+	/*
+	 @BeforeClass	 
+	 @Parameters({"browser"})
+	  public void beforeTest(String browser) {	
+	 
+	  if(browser.equalsIgnoreCase("chrome")) {
+		  driver= new ChromeDriver();
+	 
+	 
+	  }else if (browser.equalsIgnoreCase("ie")) { 
+	 
+		  System.setProperty("webdriver.ie.driver", "E:\\selenium\\IEDriverServer.exe");
+	 
+		  driver = new InternetExplorerDriver();
+	 
+	  } 
+	 driver.get("https://www.google.co.in"); 
+	  
+	 }
+	/* */
+	 
+	 
+ 
+ logger = extent.startTest("passTest");
+					Assert.assertTrue(true);
+					//To generate the log when the test case is passed
+					logger.log(LogStatus.PASS, "Test Case Passed is passTest");
+
