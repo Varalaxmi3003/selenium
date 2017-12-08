@@ -1,0 +1,137 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.Select;
+import java.io.IOException;
+import java.awt.List;
+import org.testng.SkipException;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+import org.testng.Assert;
+
+public class sample extends class_an  {
+	
+	
+	@Test
+	
+public void launch() throws InterruptedException
+{
+	WebElement element=driver.findElement(By.xpath("//*[@id=\"main-nav\"]/form/fieldset/input[1]"));
+			element.sendKeys("iphone");
+	 element.submit();
+	 Thread.sleep(100);
+	//driver.findElement(By.linkText("Apple iPhone 4S 32GB SIM-Free – White")).click();
+	 
+	WebElement search=driver.findElement(By.linkText("Apple iPhone 4S 32GB SIM-Free – White"));
+	 
+     if(search.isDisplayed())
+     {
+  	   search.click();
+     }
+     
+   else
+   {
+  	 System.out.println("the element is not found");
+   }
+     Thread.sleep(1000);
+driver.findElement(By.xpath("//*[@id='single_product_page_container']/div[1]/div[2]/form/div[2]/div[1]/span/input")).submit();
+driver.findElement(By.xpath("//*[@id='header_cart']/a")).click();
+WebElement elem = driver.findElement(By.xpath("//*[@id=\"checkout_page_container\"]/div[1]/table/tbody/tr[2]/td[3]/form/input[1]"));
+elem.click();
+elem.clear();
+elem.sendKeys("2");
+driver.findElement(By.xpath("//*[@id=\"checkout_page_container\"]/div[1]/table/tbody/tr[2]/td[3]/form/input[4]")).click();;
+driver.findElement(By.xpath("//*[@id='checkout_page_container']/div[1]/a/span")).click();
+Thread.sleep(10000);
+WebElement element1=driver.findElement(By.xpath("//*[@id='current_country']"));
+Select se=new Select(element1);
+se.selectByValue("IN");
+WebElement e2=driver.findElement(By.xpath("//*[@id=\"change_country\"]/input[2]"));
+e2.click();
+e2.sendKeys("Telangana");
+WebElement e3=driver.findElement(By.xpath("//*[@id=\"change_country\"]/input[4]"));
+e3.submit();
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_9\"]")).sendKeys("vara@gmail.com");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_2\"]")).sendKeys("vara");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_3\"]")).sendKeys("lakshmi");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_4\"]")).sendKeys("plot no:57");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_5\"]")).sendKeys("hyderabad");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_6\"]")).sendKeys("telangana");
+WebElement ele=driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_7\"]"));
+Select se1=new Select(ele);
+se1.selectByValue("IN");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_8\"]")).sendKeys("500003");
+driver.findElement(By.xpath("//*[@id=\"wpsc_checkout_form_18\"]")).sendKeys("9876543210");
+WebElement elemm =driver.findElement(By.xpath("//*[@id='wpsc_shopping_cart_container']/form/div[4]/div/div/span/input"));
+elemm.submit();
+logger = extent.startTest("passTest");
+Assert.assertTrue(true);
+logger.log(LogStatus.PASS, "Test Case Passed is passTest");
+}
+}
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Parameters;
+import java.io.File;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+import org.testng.Assert;
+
+
+public class class_an {
+
+
+	public static  WebDriver driver=null; 
+	public static   ExtentReports extent;
+	public 	ExtentTest logger;
+	@BeforeTest
+	public static void launchBrowser() throws InterruptedException {
+				  System.setProperty("webdriver.chrome.driver", "D:\\selenium\\chromedriver.exe");
+				  driver = new ChromeDriver();
+				  driver.get("http://store.demoqa.com");
+				  Thread.sleep(100);
+                    extent = new ExtentReports("D:/selenium/Assign_val/STMExtentReport.html",true);
+					extent.addSystemInfo("Host Name", "SoftwareTestingMaterial");
+					extent.addSystemInfo("Environment", "Automation Testing");
+					extent.addSystemInfo("User Name", "VAM");
+				    extent.loadConfig(new File("D:\\selenium\\extent-config.xml"));
+	}
+	@AfterMethod
+		public void endReport(){
+		 logger = extent.startTest("passTest");
+		Assert.assertTrue(true);
+		logger.log(LogStatus.PASS, "Test Case Passed is passTest");
+		extent.endTest(logger);
+	 }
+	
+  @AfterTest
+    public static void close()
+ {
+	  
+    	driver.close();
+    	extent.flush();
+       extent.close(); 
+}
+}
+ 
+
